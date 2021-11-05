@@ -84,7 +84,14 @@ module.exports = {
             {
                 test: /\.css$/i,
                 use: [MiniCssExtractPlugin.loader, 'css-loader']
-            }
+            },
+            {
+                test: /\.(png|jpe?g|gif|jp2|webp)$/,
+                loader: 'file-loader',
+                options: {
+                    name: '[name].[ext]',
+                },
+            },
         ]
     },
     devtool: 'cheap-module-source-map',

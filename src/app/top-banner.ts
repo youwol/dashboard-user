@@ -8,25 +8,6 @@ import {
 
 
 
-export class TopBannerState {
-
-    constructor() { }
-}
-
-/**
- * Main actions exposed in the [[TopBannerView]]
- */
-export class BannerActionsView implements VirtualDOM {
-
-    public readonly state: TopBannerState
-
-    public readonly class = 'd-flex justify-content-around my-auto custom-actions-view'
-    public readonly children: VirtualDOM[]
-
-    constructor() {
-    }
-}
-
 /**
  * Top banner of the application
  */
@@ -34,7 +15,7 @@ export class TopBannerView extends YouwolBannerView {
 
     constructor() {
         super({
-            customActionsView: new BannerActionsView(),
+            customActionsView: {},
             burgerMenuView: new BurgerMenu({
                 sections: [
                     new BurgerMenuSection({

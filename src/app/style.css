@@ -1,5 +1,7 @@
-#general{
-    background-image: url(https://y6b8k9e7.stackpathcdn.com/wp-content/uploads/2019/11/shutterstock_719547058-e1573509419562.jpg);
-    background-position:center;
-    opacity: 0.1;
+
+
+@keyframes spin { 100% { transform:rotate(360deg); } }
+
+.tessael-img{
+    background: url('./images/tessael.jpg');
 }

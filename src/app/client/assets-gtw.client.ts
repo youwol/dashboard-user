@@ -1,6 +1,7 @@
 import { createObservableFromFetch } from "@youwol/flux-core"
-import { Observable } from "rxjs"
-import { map } from "rxjs/operators"
+import { Observable, of } from "rxjs"
+import { delay, filter, map } from "rxjs/operators"
+import { announcements } from "../data"
 
 
 
@@ -30,11 +31,27 @@ export class AssetsGtwClient {
 
     static urlBaseAssets = '/api/assets-gateway/assets'
 
-    static getAsset$(assetId: string): Observable<Asset> {
+    static getAsset$(assetId: string, tags: string[] = []): Observable<Asset> {
+
+        tags = tags.map(t => t.toLowerCase())
+        let filterByTags = filter((asset: Asset) => {
+            if (tags.length == 0)
+                return true
+            return tags
+                .map((target) => asset.tags.find(assetTag => assetTag.toLowerCase().includes(target)))
+                .filter(d => d).length > 0
+        })
+
+        if (assetId.startsWith("announcement_")) {
+            return of(announcements.find(asset => asset.assetId == assetId)).pipe(
+                filterByTags
+            )
+        }
         let url = AssetsGtwClient.urlBaseAssets + `/${assetId}`
         let request = new Request(url)
         return createObservableFromFetch(request).pipe(
-            map((asset: any) => new Asset(asset))
+            map((asset: any) => new Asset(asset)),
+            filterByTags
         )
     }
 }

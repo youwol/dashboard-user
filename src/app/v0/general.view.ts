@@ -1,6 +1,6 @@
 import { VirtualDOM } from "@youwol/flux-view"
 import { Button } from "@youwol/fv-button"
-import { panelBaseClasses } from "../utils.view"
+import { ButtonView, panelBaseClasses } from "../utils.view"
 
 
 let announcement = {
@@ -18,7 +18,7 @@ let announcement = {
                 children: [
                     {
                         class: 'text-justify',
-                        innerHTML: `The geo-mechanics group is happy to welcome <a herf="https://www.google.com/url?sa=i&url=https%3A%2F%2Ftwitter.com%2Ftessael_sas&psig=AOvVaw3OmVikjO236Lg4svVvM_h5&ust=1635973189281000&source=images&cd=vfe&ved=0CAsQjRxqFwoTCNCYsJjJ-vMCFQAAAAAdAAAAABAN">Tessael</a> as new collaborator!
+                        innerHTML: `The geo-mechanics group is happy to welcome <a href="https://www.google.com/url?sa=i&url=https%3A%2F%2Ftwitter.com%2Ftessael_sas&psig=AOvVaw3OmVikjO236Lg4svVvM_h5&ust=1635973189281000&source=images&cd=vfe&ved=0CAsQjRxqFwoTCNCYsJjJ-vMCFQAAAAAdAAAAABAN">Tessael</a> as new collaborator!
                         <br>
                         Tessael is a company that provides cutting edges numerical solutions for remeshing.`
                     },
@@ -53,8 +53,8 @@ export class GeneralView {
                         {
                             class: 'w-50 d-flex  justify-content-around align-items-center',
                             children: [
-                                this.buttonView('login'),
-                                this.buttonView('register')
+                                new ButtonView('login'),
+                                new ButtonView('register')
                             ]
                         },
                         this.announcementView(announcement)
@@ -62,17 +62,6 @@ export class GeneralView {
                 }
             ]
         }]
-    }
-
-    buttonView(name: string): VirtualDOM {
-
-        let state = new Button.State()
-        let view = new Button.View({
-            state,
-            contentView: () => ({ innerText: name }),
-            class: 'fv-btn fv-bg-secondary-alt fv-hover-bg-secondary'
-        } as any)
-        return view
     }
 
     announcementView(announcement: { content: any }): VirtualDOM {
@@ -88,7 +77,7 @@ export class GeneralView {
                     }
                 },
                 announcement.content,
-                this.buttonView("More in the story 📖")
+                new ButtonView("More in the story 📖")
             ]
         }
     }

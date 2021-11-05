@@ -7,6 +7,10 @@
 
 // (index.html is handled by HtmlWebpackPlugin)
 require('./style.css')
+
+require('./images/tessael.jpg')
+require('./images/GeO2_maillage_geologique.jpg')
+
 export { }
 
 let cdn = window['@youwol/cdn-client']
@@ -38,9 +42,6 @@ let bundlesFutures = cdn.fetchBundles(
     },
     window
 )
-
 await Promise.all([stylesFutures, bundlesFutures])
-
 await import('./load-app')
-
 
