@@ -1,12 +1,9 @@
-import { attr$, child$, childrenAppendOnly$, HTMLElement$, render, Stream$, VirtualDOM } from "@youwol/flux-view"
-import { AppendOnlyChildrenStream$ } from "@youwol/flux-view/src/lib/advanced-children$"
+import { attr$, child$, childrenAppendOnly$, VirtualDOM } from "@youwol/flux-view"
 import { Button } from "@youwol/fv-button"
-import { Modal } from "@youwol/fv-group"
 import { BehaviorSubject, merge, Observable, ReplaySubject, Subject } from "rxjs"
-import { filter, map, mergeMap } from "rxjs/operators"
+import { map } from "rxjs/operators"
 import { Asset, AssetsGtwClient } from "./client/assets-gtw.client"
 import { announcements, applications, assets, stories } from "./data"
-import { presentationView } from "./details.view"
 
 
 export let panelBaseClasses = 'w-50 h-50 p-2 fv-text-primary d-flex flex-column'
@@ -258,45 +255,6 @@ export class AppState {
     }
 }
 
-export function modalView(state: AppStateInterface) {
-
-    let modalState = new Modal.State()
-    let view = new Modal.View({
-        state: modalState,
-        contentView: () => {
-            return {
-                class: 'p-3 rounded fv-color-focus fv-bg-background w-100 h-50 fv-text-primary',
-                style: { maxWidth: '1000px' },
-                children: [
-                    child$(
-                        state.selection$.pipe(
-                            filter(asset => asset != undefined),
-                            mergeMap((assetId) => AssetsGtwClient.getAsset$(assetId))
-                        ),
-                        (asset) => {
-                            return presentationView(asset)
-                        },
-                        {
-                            untilFirst: ywSpinnerView({ classes: 'mx-auto', size: '50px', duration: 1.5 }) as any
-                        }
-                    ),
-                ]
-            }
-        },
-        connectedCallback: (elem: HTMLDivElement & HTMLElement$) => {
-            elem.children[0].classList.add("w-100")
-            // https://stackoverflow.com/questions/63719149/merge-deprecation-warning-confusion
-            let sub = merge(...[modalState.cancel$, modalState.ok$]).subscribe(() => {
-                modalDiv.remove()
-                state.unselect()
-            })
-            elem.ownSubscriptions(sub)
-        }
-    } as any)
-    let modalDiv = render(view)
-    document.querySelector("body").appendChild(modalDiv)
-    return view
-}
 
 function actionViewFactory(assetKind: string) {
     let factory = {

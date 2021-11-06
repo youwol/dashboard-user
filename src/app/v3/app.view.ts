@@ -1,11 +1,12 @@
 import { VirtualDOM, child$, attr$ } from "@youwol/flux-view";
-import { BurgerMenu, BurgerMenuSection, DashboardLink, Preferences, UserSettings, WorkspaceLink, YouwolBannerView } from "@youwol/flux-youwol-essentials";
+import { BurgerMenu, BurgerMenuSection, DashboardLink, Preferences, SettingsBurgerItem, UserSettings, WorkspaceLink, YouwolBannerState, YouwolBannerView } from "@youwol/flux-youwol-essentials";
 import { BehaviorSubject, combineLatest, merge, Subject } from "rxjs";
 import { filter, map } from "rxjs/operators";
-import { AssetsGtwClient } from "../client/assets-gtw.client";
+import { Asset, AssetsGtwClient } from "../client/assets-gtw.client";
 import { announcements, applications, assets, data, stories } from "../data";
+import { modalView } from "../modal/modal.view";
 ;
-import { AppState as AppStateBase, CardsView, loginView, modalView, pageHeaderView, PageType, SideBarSection } from "../utils.view";
+import { AppState as AppStateBase, CardsView, loginView, pageHeaderView, PageType, SideBarSection } from "../utils.view";
 import { SideBarView } from "./side-bar.view";
 
 
@@ -44,8 +45,8 @@ class SearchView implements VirtualDOM {
 export class TopBannerView extends YouwolBannerView {
 
     constructor(state: AppState) {
-
         super({
+            state: state.topBannerState,
             customActionsView: {
                 class: 'd-flex align-items-center justify-content-around flex-grow-1 flex-wrap',
                 children: [
@@ -64,7 +65,7 @@ export class TopBannerView extends YouwolBannerView {
                     new BurgerMenuSection({
                         items: [
                             new UserSettings(),
-                            new Preferences()
+                            new SettingsBurgerItem({ state: state.topBannerState })
                         ]
                     }),
                 ]
@@ -196,6 +197,7 @@ export class AssetsView extends CardsView {
 class AppState extends AppStateBase {
 
     tags$ = new BehaviorSubject([])
+    topBannerState = new YouwolBannerState()
 }
 
 /**

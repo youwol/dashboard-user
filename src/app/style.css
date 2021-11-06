@@ -5,3 +5,7 @@
 .tessael-img{
     background: url('./images/tessael.jpg');
 }
+.CodeMirror{
+    height: 100% !important;
+    padding: 0.25em !important
+}
