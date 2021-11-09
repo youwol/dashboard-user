@@ -1,3 +1,4 @@
+import { PageType } from "./utils.view"
 
 
 export let applications = [
@@ -85,3 +86,11 @@ export let announcements = [
         tags: []
     }
 ]
+
+export let assetsByPage = {
+    [PageType.applications]: applications,
+    [PageType.packages]: assets,
+    [PageType.data]: data,
+    [PageType.stories]: stories,
+    [PageType.announcements]: announcements,
+}

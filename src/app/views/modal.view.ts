@@ -3,26 +3,16 @@ import { Modal } from "@youwol/fv-group"
 import { BehaviorSubject, merge } from "rxjs"
 import { filter, mergeMap } from "rxjs/operators"
 import { Asset, AssetsGtwClient } from "../client/assets-gtw.client"
-import { AppStateInterface, ywSpinnerView } from "../utils.view"
 import { Tabs } from "@youwol/fv-tabs"
 import { uuidv4 } from "@youwol/flux-core"
-import { YouwolBannerState } from "@youwol/flux-youwol-essentials"
+import { YouwolBannerState, ywSpinnerView } from "@youwol/flux-youwol-essentials"
+import { AppState } from "../app.state"
 
 type AssetPreviewApp = {
     name: string,
     canOpen: (Asset) => boolean,
-    applicationUrl: (Asset) => string
+    applicationURL: (Asset) => string
 }
-let assetPreviews = [
-    {
-        name: "Visualization 3D",
-        canOpen: (asset: Asset) => asset.kind == "data" && asset.name.endsWith('.ts'),
-        applicationURL: (asset: Asset) => {
-            let encoded = encodeURI(JSON.stringify(asset))
-            return `/ui/flux-runner/?id=81cfdf74-56ec-4202-bd23-d2049d6d96ab&asset=${encoded}`
-        }
-    }
-]
 
 class TabPreview extends Tabs.TabData {
     public readonly preview: AssetPreviewApp
@@ -34,7 +24,7 @@ class TabPreview extends Tabs.TabData {
 }
 
 
-export function modalView(state: AppStateInterface) {
+export function modalView(state: AppState) {
 
     let modalState = new Modal.State()
     let view = new Modal.View({
@@ -45,7 +35,7 @@ export function modalView(state: AppStateInterface) {
                 style: { maxWidth: '1000px' },
                 children: [
                     child$(
-                        state.selection$.pipe(
+                        state.selectedAsset$.pipe(
                             filter(asset => asset != undefined),
                             mergeMap((assetId) => AssetsGtwClient.getAsset$(assetId))
                         ),
@@ -73,7 +63,7 @@ export function modalView(state: AppStateInterface) {
 }
 
 
-export function presentationView(appState: AppStateInterface, asset: Asset): VirtualDOM {
+export function presentationView(appState: AppState, asset: Asset): VirtualDOM {
 
     let hr = { tag: 'hr' }
 
@@ -104,8 +94,8 @@ export function presentationView(appState: AppStateInterface, asset: Asset): Vir
             : {
                 tag: 'iframe',
                 width: '100%',
-                style: { aspectRatio: '1' },
-                src: tabData.preview.applicationUrl(asset)
+                style: { aspectRatio: '2' },
+                src: tabData.preview.applicationURL(asset)
             },
         headerView: (_, tabData) => ({
             class: 'px-2 rounded border',
