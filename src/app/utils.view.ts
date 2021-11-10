@@ -13,6 +13,7 @@ export enum PageType {
     data = "data",
     announcements = "announcements"
 }
+
 export let faClasses = {
     [PageType.applications]: "fas fa-play",
     [PageType.packages]: "fas fa-puzzle-piece",
@@ -20,6 +21,7 @@ export let faClasses = {
     [PageType.data]: "fas fa-database",
     [PageType.announcements]: "fas fa-bullhorn",
 }
+
 export function headerView(name: string): VirtualDOM {
 
     return {
@@ -37,8 +39,8 @@ export class ButtonView extends Button.View {
 
     class = 'fv-btn fv-bg-secondary-alt fv-hover-bg-secondary'
 
-    constructor(name: string, withClass: string = "") {
-        super({ state: new Button.State(), contentView: () => ({ innerText: name }) })
+    constructor({ name, withClass, enabled }: { name: string, withClass: string, enabled: boolean }) {
+        super({ state: new Button.State(), contentView: () => ({ innerText: name }), disabled: !enabled } as any)
         this.class = `${this.class} ${withClass}`
     }
 }
@@ -58,7 +60,9 @@ export function loginView() {
     return {
         class: `d-flex align-items-center w-25 justify-content-around`,
         style: { maxWidth: '250px' },
-        children: [new ButtonView('login', 'mx-2 fv-text-primary'), new ButtonView('register', 'mx-2 fv-text-primary')]
+        children: [
+            new ButtonView({ name: 'login', withClass: 'mx-2 fv-text-primary', enabled: true }),
+            new ButtonView({ name: 'register', withClass: 'mx-2 fv-text-primary', enabled: true })]
     }
 }
 
