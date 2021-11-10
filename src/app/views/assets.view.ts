@@ -8,6 +8,13 @@ import { IconButtonView } from "../utils.view"
 import { AssetView } from "./asset.view"
 
 
+export let backgrounds = {
+    [PageType.applications]: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS7oWwBRmPGqAamHHaepQbxsxrsfOMatdYIcw&usqp=CAU",
+    [PageType.packages]: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_2VMUwjtfzrRRFSIy9QTd1snq4jdf6ekjoA&usqp=CAU",
+    [PageType.data]: "",
+    [PageType.stories]: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSe6EZbq3ttSqGVYR_QLTFt3GJIIFfoUPF3Bw&usqp=CAU",
+    [PageType.announcements]: "https://images.unsplash.com/photo-1527168027773-0cc890c4f42e?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTZ8fHBvc3QlMjBpdHxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&w=1000&q=80",
+}
 
 function actionViewFactory(assetKind: string) {
     let factory = {
@@ -80,7 +87,7 @@ export class AssetsView {
 
                 class: "h-100 w-100",
                 style: {
-                    backgroundImage: "url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS7oWwBRmPGqAamHHaepQbxsxrsfOMatdYIcw&usqp=CAU)",
+                    backgroundImage: `url(${backgrounds[page]})`,
                     opacity: "0.1"
                 }
             },
