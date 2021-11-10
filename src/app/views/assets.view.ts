@@ -4,7 +4,7 @@ import { merge, Observable, ReplaySubject } from "rxjs"
 import { map } from "rxjs/operators"
 import { AppState } from "../app.state"
 import { Asset, AssetsGtwClient } from "../client/assets-gtw.client"
-import { IconButtonView } from "../utils.view"
+import { IconButtonView, PageType } from "../utils.view"
 import { AssetView } from "./asset.view"
 
 
@@ -16,7 +16,8 @@ export let backgrounds = {
     [PageType.announcements]: "https://images.unsplash.com/photo-1527168027773-0cc890c4f42e?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTZ8fHBvc3QlMjBpdHxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&w=1000&q=80",
 }
 
-function actionViewFactory(assetKind: string) {
+
+export function actionViewFactory(assetKind: string) {
     let factory = {
         'flux-project': (asset: Asset) => {
             let view = new IconButtonView('fas fa-play')
@@ -74,9 +75,14 @@ export class AssetsView {
     }
     children: VirtualDOM[]
 
-    constructor(state: AppState, assetIds: string[], tags: string[]) {
+    constructor({ state, assetIds, tags, headerView }: {
+        state: AppState,
+        assetIds: string[],
+        tags: string[],
+        headerView?: VirtualDOM
+    }) {
 
-        console.log("Assets", assetIds)
+        let page = state.selectedPage$.getValue()
 
         let assets$ = merge(...assetIds.map((assetId) => {
             return AssetsGtwClient.getAsset$(assetId, tags)
@@ -94,6 +100,7 @@ export class AssetsView {
             {
                 class: "position-absolute h-100 w-100",
                 children: [
+                    headerView ? headerView : {},
                     new AssetsListView(assets$.pipe(map(asset => [asset])), state)
                 ]
             }
