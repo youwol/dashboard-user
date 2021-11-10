@@ -62,65 +62,8 @@ export function loginView() {
     }
 }
 
-/*
 
-    return {
-        id: 'carouselExampleControls',
-        class: "carousel slide",
-        'data-ride': "carousel",
-        children: [
-            {
-                class: "carousel-inner",
-                children: asset.images.map((img, i) => {
-                    return {
-                        class: 'carousel-item ' + ((i === 0) ? "active" : ""),
-                        children: [{
-                            tag: 'img',
-                            class: 'mx-auto d-block',
-                            src: img,
-                            width: 500
-                        }]
-                    }
-                })
-            },
-            {
-                tag: 'a',
-                class: "carousel-control-prev",
-                href: "#carouselExampleControls",
-                role: "button",
-                'data-slide': "prev",
                 children: [
-                    {
-                        tag: 'span',
-                        class: "carousel-control-prev-icon",
-                        'aria-hidden': "true"
-                    },
-                    {
-                        tag: 'span',
-                        class: "sr-only",
-                        innerText: 'Previous'
-                    }
-                ]
-            },
-            {
-                tag: 'a',
-                class: "carousel-control-next",
-                href: "#carouselExampleControls",
-                role: "button",
-                'data-slide': "next",
-                children: [
-                    {
-                        tag: 'span',
-                        class: "carousel-control-next-icon",
-                        'aria-hidden': "true"
-                    },
-                    {
-                        tag: 'span',
-                        class: "sr-only",
-                        innerText: 'Next'
-                    }
                 ]
             }
-        ]
     }
-*/
