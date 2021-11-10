@@ -18,6 +18,10 @@ export class AppState {
         })
     )
 
+    selectPage(page: PageType) {
+        this.selectedPage$.next(page)
+    }
+
     selectAsset(assetId: string) {
         this.selectedAsset$.next(assetId)
     }
