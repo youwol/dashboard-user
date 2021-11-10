@@ -7,6 +7,7 @@ import { Tabs } from "@youwol/fv-tabs"
 import { uuidv4 } from "@youwol/flux-core"
 import { YouwolBannerState, ywSpinnerView } from "@youwol/flux-youwol-essentials"
 import { AppState } from "../app.state"
+import { actionViewFactory } from "../utils.view"
 
 type AssetPreviewApp = {
     name: string,
@@ -72,6 +73,8 @@ export function presentationView(appState: AppState, asset: Asset): VirtualDOM {
         children: [
             titleView(asset),
             hr,
+            actionsView(asset),
+            hr,
             snippetView(asset),
             hr,
             descriptionView(asset)
@@ -82,7 +85,7 @@ export function presentationView(appState: AppState, asset: Asset): VirtualDOM {
         .filter((preview) => preview.canOpen(asset))
         .map((preview) => new TabPreview(preview))
 
-    if (previews.length == 0)
+    if (previews.length == 0 || !asset.permissions.read)
         return mainView
 
     let overViewUid = uuidv4()
@@ -106,7 +109,11 @@ export function presentationView(appState: AppState, asset: Asset): VirtualDOM {
     return view
 }
 
-export function snippetView(asset: Asset) {
+function actionsView(asset: Asset) {
+    return actionViewFactory(asset.kind)(asset)
+}
+
+function snippetView(asset: Asset) {
     if (asset.images.length == 0)
         return {}
 

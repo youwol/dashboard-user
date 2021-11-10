@@ -1,6 +1,7 @@
 import { attr$, VirtualDOM } from "@youwol/flux-view"
 import { Button } from "@youwol/fv-button"
 import { Subject } from "rxjs"
+import { Asset } from "./client/assets-gtw.client"
 
 
 export let panelBaseClasses = 'w-50 h-50 p-2 fv-text-primary d-flex flex-column'
@@ -66,8 +67,39 @@ export function loginView() {
     }
 }
 
+export function actionViewFactory(assetKind: string) {
+    let factory = {
+        'flux-project': (asset: Asset) => {
+            let btnPlay = new ButtonView({ name: 'Play', withClass: "", enabled: asset.permissions.read })
+            btnPlay.state.click$.subscribe(() => {
+                window.location.href = `/ui/flux-runner/?id=${asset.rawId}`
+            })
+            let btnEdit = new ButtonView({ name: 'Edit', withClass: "", enabled: asset.permissions.write })
 
+            btnEdit.state.click$.subscribe(() => {
+                window.location.href = `/ui/flux-builder/?id=${asset.rawId}`
+            })
+            let btnDuplicate = new ButtonView({ name: 'Duplicate', withClass: "", enabled: asset.permissions.read })
+            btnDuplicate.state.click$.subscribe(() => {
+                window.location.href = `/ui/flux-builder/?id=${asset.rawId}`
+            })
+
+            return {
+                class: 'd-flex w-100 justify-content-around',
                 children: [
+                    btnPlay,
+                    btnEdit,
+                    btnDuplicate
                 ]
             }
+        },
+        'story': (asset: Asset) => {
+            let view = new ButtonView({ name: 'read', withClass: "", enabled: true })
+            view.state.click$.subscribe(() => {
+                window.location.href = `/ui/stories/?id=${asset.rawId}`
+            })
+            return view
+        }
     }
+    return factory[assetKind] ? factory[assetKind] : () => ({})
+}
