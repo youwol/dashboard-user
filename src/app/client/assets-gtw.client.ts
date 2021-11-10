@@ -1,35 +1,42 @@
 import { createObservableFromFetch } from "@youwol/flux-core"
+import { userInfo } from "node:os"
 import { Observable, of } from "rxjs"
 import { delay, filter, map } from "rxjs/operators"
 import { announcements } from "../data"
 
 
+export interface Permissions {
+    read: boolean
+    write: boolean
+}
 
-export class Asset {
+export interface Group {
+    id: string
+    path: string
+}
 
-    public readonly assetId: string
-    public readonly rawId: string
-    public readonly kind: string
-    public readonly name: string
-    public readonly groupId: string
-    public readonly description: string
-    public readonly images: Array<string>
-    public readonly thumbnails: Array<string>
-    public readonly tags: Array<string>
-    constructor(params:
-        {
-            treeId: string, assetId: string, rawId: string, kind: string, name: string, groupId: string,
-            description: string, images: Array<string>, thumbnails: Array<string>, tags: Array<string>
-        }) {
+export interface UserInfo {
+    groups: Group[]
+}
 
-        Object.assign(this, params)
-    }
+export interface Asset {
+
+    readonly assetId: string
+    readonly rawId: string
+    readonly kind: string
+    readonly name: string
+    readonly groupId: string
+    readonly description: string
+    readonly images: Array<string>
+    readonly thumbnails: Array<string>
+    readonly tags: Array<string>
+    readonly permissions: Permissions
 }
 
 export class AssetsGtwClient {
 
-
-    static urlBaseAssets = '/api/assets-gateway/assets'
+    static urlBase = '/api/assets-gateway'
+    static urlBaseAssets = `${AssetsGtwClient.urlBase}/assets`
 
     static getAsset$(assetId: string, tags: string[] = []): Observable<Asset> {
 
@@ -50,8 +57,16 @@ export class AssetsGtwClient {
         let url = AssetsGtwClient.urlBaseAssets + `/${assetId}`
         let request = new Request(url)
         return createObservableFromFetch(request).pipe(
-            map((asset: any) => new Asset(asset)),
             filterByTags
+        )
+    }
+
+    static getUserGroups$(): Observable<Group[]> {
+
+        let url = `${AssetsGtwClient.urlBase}/user-info`
+        let request = new Request(url)
+        return createObservableFromFetch(request).pipe(
+            map((userInfo: UserInfo) => userInfo.groups)
         )
     }
 }
