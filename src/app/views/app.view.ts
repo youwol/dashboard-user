@@ -6,6 +6,7 @@ import { AppState } from "../app.state";
 import { modalView } from "./modal.view";
 import { AssetsView } from "./assets.view";
 import { SideBarView } from "./sidebar.view";
+import { ContentView } from "./main-content.view";
 
 class SearchView implements VirtualDOM {
 
@@ -128,16 +129,14 @@ export class AppView implements VirtualDOM {
         ).subscribe(() => modalView(this.state))
 
         let sideBarView = new SideBarView(this.state, this.extended$)
+
         this.children = [
             new TopBannerView(this.state),
             {
                 class: 'd-flex h-100',
                 children: [
                     sideBarView,
-                    child$(
-                        combineLatest([sideBarView.assetIds$, this.state.tags$]),
-                        ([assetIds, tags]) => new AssetsView(this.state, assetIds, tags)
-                    )
+                    new ContentView(this.state)
                 ]
             }
         ]
