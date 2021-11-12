@@ -80,7 +80,7 @@ export function presentationView(appState: AppState, asset: Asset): VirtualDOM {
             descriptionView(asset)
         ]
     }
-    console.log((appState['topBannerState'] as YouwolBannerState).settings$.getValue())
+
     let previews = (appState['topBannerState'] as YouwolBannerState).settings$.getValue().parsed.defaultApplications
         .filter((preview) => preview.canOpen(asset))
         .map((preview) => new TabPreview(preview))
