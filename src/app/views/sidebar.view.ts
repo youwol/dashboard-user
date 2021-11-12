@@ -1,8 +1,6 @@
-import { attr$, child$, childrenAppendOnly$, VirtualDOM } from "@youwol/flux-view"
-import { ImmutableTree } from "@youwol/fv-tree"
+import { attr$, VirtualDOM } from "@youwol/flux-view"
 import { BehaviorSubject, combineLatest } from "rxjs"
 import { AppState } from "../app.state"
-import { AssetsGtwClient, Group } from "../client/assets-gtw.client"
 import { faClasses, PageType } from "../utils.view"
 
 

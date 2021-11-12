@@ -1,10 +1,9 @@
-import { VirtualDOM, child$ } from "@youwol/flux-view";
-import { BurgerMenu, BurgerMenuSection, SettingsBurgerItem, UserSettings, YouwolBannerView } from "@youwol/flux-youwol-essentials";
-import { BehaviorSubject, combineLatest, Subject } from "rxjs";
-import { filter, map } from "rxjs/operators";
+import { VirtualDOM } from "@youwol/flux-view";
+import { defaultUserMenu, defaultYouWolMenu, YouwolBannerView } from "@youwol/flux-youwol-essentials";
+import { BehaviorSubject, Subject } from "rxjs";
+import { filter } from "rxjs/operators";
 import { AppState } from "../app.state";
 import { modalView } from "./modal.view";
-import { AssetsView } from "./assets.view";
 import { SideBarView } from "./sidebar.view";
 import { ContentView } from "./main-content.view";
 
