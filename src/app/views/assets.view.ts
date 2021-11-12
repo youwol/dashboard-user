@@ -60,7 +60,12 @@ export class AssetsListView implements VirtualDOM {
                 elementInDoc$,
                 () => ({}),
                 {
-                    untilFirst: ywSpinnerView({ classes: 'mx-auto', size: '50px', duration: 1.5 }) as any
+                    untilFirst: {
+                        class: 'd-flex flex-column justify-content-center h-100',
+                        children: [
+                            ywSpinnerView({ classes: 'mx-auto', size: '50px', duration: 1.5 })
+                        ]
+                    }
                 }
             )
         ]

@@ -60,7 +60,7 @@ export class PagesView implements VirtualDOM {
 
 export class SideBarView implements VirtualDOM {
 
-    class = "fv-bg-background p-3 h-100"
+    class = "fv-bg-background p-2 border-right h-100"
     style: any
     children: VirtualDOM[]
 
