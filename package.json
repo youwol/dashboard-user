@@ -1,7 +1,7 @@
 {
-    "name": "@youwol/dashboard-user",
     "version": "0.0.0-next",
-    "description": "YouWol's user's dashboard",
+    "name": "@youwol/exhibition-halls",
+    "description": "YouWol's exhibition's halls front-end application",
     "author": "greinisch@youwol.com",
     "scripts": {
         "build": "yarn build:dev",
