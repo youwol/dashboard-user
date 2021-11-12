@@ -1,7 +1,7 @@
 import { VirtualDOM } from "@youwol/flux-view";
 import { defaultUserMenu, defaultYouWolMenu, YouwolBannerView } from "@youwol/flux-youwol-essentials";
-import { BehaviorSubject, Subject } from "rxjs";
-import { filter } from "rxjs/operators";
+import { BehaviorSubject, from, Subject } from "rxjs";
+import { filter, map } from "rxjs/operators";
 import { AppState } from "../app.state";
 import { modalView } from "./modal.view";
 import { SideBarView } from "./sidebar.view";
@@ -50,7 +50,10 @@ export class TopBannerView extends YouwolBannerView {
                 ]
             },
             userMenuView: defaultUserMenu(state.topBannerState),
-            youwolMenuView: defaultYouWolMenu(state.topBannerState)
+            youwolMenuView: defaultYouWolMenu(state.topBannerState),
+            signedIn$: from(fetch(new Request("/api/assets-gateway/healthz"))).pipe(
+                map(resp => resp.status == 200)
+            )
         })
     }
 }

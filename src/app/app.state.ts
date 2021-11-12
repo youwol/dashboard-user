@@ -1,14 +1,32 @@
+import { install } from "@youwol/cdn-client"
 import { YouwolBannerState } from "@youwol/flux-youwol-essentials"
-import { BehaviorSubject, ReplaySubject } from "rxjs"
+import { BehaviorSubject, from, Observable, ReplaySubject } from "rxjs"
 import { map } from "rxjs/operators"
 import { assetsByPage } from "./data"
 import { PageType } from "./utils.view"
 
+function fetchCodeMirror$(): Observable<any> {
+
+    return from(
+        install({
+            modules: ['codemirror'],
+            scripts: [
+                "codemirror#5.52.0~mode/javascript.min.js"
+            ],
+            css: [
+                "codemirror#5.52.0~codemirror.min.css",
+                "codemirror#5.52.0~theme/blackboard.min.css"
+            ]
+        })
+    )
+}
 
 export class AppState {
 
     tags$ = new BehaviorSubject([])
-    topBannerState = new YouwolBannerState()
+    topBannerState = new YouwolBannerState({
+        cmEditorModule$: fetchCodeMirror$()
+    })
     public readonly selectedAsset$ = new ReplaySubject<string>(1)
     public readonly selectedPage$ = new BehaviorSubject(PageType.applications)
 
