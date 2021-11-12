@@ -1,8 +1,9 @@
 {
-    "version": "0.0.0-next",
     "name": "@youwol/exhibition-halls",
+    "version": "0.0.1",
     "description": "YouWol's exhibition's halls front-end application",
     "author": "greinisch@youwol.com",
+    "main":"dist/index.html",
     "scripts": {
         "build": "yarn build:dev",
         "build:dev": "del-cli dist && webpack --mode development",
