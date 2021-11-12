@@ -1,6 +1,5 @@
-import { child$, VirtualDOM } from "@youwol/flux-view";
-import { Tabs } from "@youwol/fv-tabs";
-import { combineLatest } from "rxjs";
+import { attr$, child$, VirtualDOM } from "@youwol/flux-view";
+import { BehaviorSubject, combineLatest } from "rxjs";
 import { AppState } from "../app.state";
 import { ButtonView, PageType } from "../utils.view";
 import { AssetsView } from "./assets.view";
@@ -24,18 +23,10 @@ let headerViewFactory = {
         }
     }
 }
-class MySpaceTab extends Tabs.TabData {
 
-    constructor() {
-        super('my-space', 'My space')
-    }
+class PrivateHall {
 
-    headerView() {
-        return {
-            class: 'px-3 fv-color-primary rounded',
-            innerText: this.name
-        }
-    }
+    name = 'Private'
 
     contentView(state: AppState) {
 
@@ -58,17 +49,11 @@ class MySpaceTab extends Tabs.TabData {
     }
 }
 
-class YouWolTab extends Tabs.TabData {
+class YouWolHall {
+
+    name = 'YouWol'
 
     constructor() {
-        super('showroom', 'Showroom')
-    }
-
-    headerView() {
-        return {
-            class: 'px-3 fv-color-primary rounded',
-            innerText: this.name
-        }
     }
 
     contentView(state) {
@@ -87,26 +72,58 @@ class YouWolTab extends Tabs.TabData {
     }
 }
 
+
 export class ContentView implements VirtualDOM {
 
-    class = "w-100 h-100"
+    class = "w-100 h-100 d-flex flex-column"
     children: VirtualDOM[]
 
-    static tabsData = [
-        new YouWolTab(),
-        new MySpaceTab()
+    public readonly halls = [
+        new YouWolHall(),
+        new PrivateHall()
     ]
+
+    selectedHall$ = new BehaviorSubject<any>(this.halls[0])
+
     constructor(state: AppState) {
 
-        let tabState = new Tabs.State(ContentView.tabsData)
-        let view = new Tabs.View({
-            state: tabState,
-            contentView: (tabState, tabData) => tabData.contentView(state),
-            headerView: (tabState, tabData) => tabData.headerView(),
-            class: 'd-flex h-100 flex-column'
-        } as any)
         this.children = [
-            view
+            this.headerView(),
+            child$(
+                this.selectedHall$,
+                (hall) => hall.contentView(state)
+            )
         ]
+    }
+
+    headerView(): VirtualDOM {
+
+        return {
+            class: 'd-flex align-items-center py-2 w-100 justify-content-between flex-wrap',
+            children: [
+                {
+                    class: 'fas fa-person-booth px-3'
+                },
+                {
+                    class: 'd-flex align-items-center justify-content-around flex-grow-1 flex-wrap',
+                    children: this.halls.map(hall => {
+                        let view = this.hallView(hall)
+                        return { ...view, onclick: () => { this.selectedHall$.next(hall) } }
+                    })
+                }
+            ]
+        }
+    }
+
+    hallView(hall): VirtualDOM {
+
+        return {
+            class: attr$(
+                this.selectedHall$,
+                (selected) => hall.name === selected.name ? 'fv-bg-focus' : '',
+                { wrapper: (d) => `${d} px-3 fv-color-primary rounded fv-pointer` }
+            ),
+            innerText: hall.name
+        }
     }
 }
