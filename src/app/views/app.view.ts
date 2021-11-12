@@ -49,16 +49,8 @@ export class TopBannerView extends YouwolBannerView {
                     new SearchView(state.tags$)
                 ]
             },
-            burgerMenuView: new BurgerMenu({
-                sections: [
-                    new BurgerMenuSection({
-                        items: [
-                            new UserSettings(),
-                            new SettingsBurgerItem({ state: state.topBannerState })
-                        ]
-                    }),
-                ]
-            })
+            userMenuView: defaultUserMenu(state.topBannerState),
+            youwolMenuView: defaultYouWolMenu(state.topBannerState)
         })
     }
 }
