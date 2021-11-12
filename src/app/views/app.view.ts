@@ -63,49 +63,6 @@ export class TopBannerView extends YouwolBannerView {
     }
 }
 
-/*
-
-class SideBarContentView implements VirtualDOM {
-
-    public readonly class = ""
-    public readonly children: VirtualDOM[]
-
-    public readonly selection$ = new BehaviorSubject(PageType.applications)
-
-    public readonly assetIds$ = this.selection$.pipe(
-        map((selection: PageType) => {
-            return assetsByPage[selection].map((asset) => asset.assetId)
-        })
-
-    )
-
-    constructor(extended$: BehaviorSubject<boolean>) {
-
-        let assetTypeView = {
-            children: Object.values(PageType).filter(d => d != PageType.none)
-                .map(page => new AssetTypeView(page, this.selection$, extended$))
-        }
-
-        this.children = [
-            {
-                class: "w-100 fv-text-primary text-right mb-3",
-                children: [
-                    {
-                        class: 'ml-auto fas fa-bars fv-pointer p-1 fv-hover-text-focus',
-                        onclick: () => { extended$.next(!extended$.getValue()) }
-
-                    }
-                ]
-            },
-            new SideBarSection({ title: "", contentView: assetTypeView })
-        ]
-    }
-}
-
-*/
-
-
-
 
 /**
  * Global application's view
