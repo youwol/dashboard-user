@@ -1,11 +1,11 @@
-import { child$, childrenAppendOnly$, VirtualDOM } from "@youwol/flux-view"
-import { ywSpinnerView } from "@youwol/flux-youwol-essentials"
-import { merge, Observable, ReplaySubject } from "rxjs"
+import { VirtualDOM } from "@youwol/flux-view"
+import { AssetsListView } from "@youwol/flux-youwol-essentials"
+import { merge } from "rxjs"
 import { map } from "rxjs/operators"
 import { AppState } from "../app.state"
 import { Asset, AssetsGtwClient } from "../client/assets-gtw.client"
 import { IconButtonView, PageType } from "../utils.view"
-import { AssetView } from "./asset.view"
+
 
 
 export let backgrounds = {
@@ -37,40 +37,6 @@ export function actionViewFactory(assetKind: string) {
     return factory[assetKind] ? factory[assetKind] : () => ({})
 }
 
-
-export class AssetsListView implements VirtualDOM {
-
-    public readonly class = 'h-100 overflow-auto w-100'
-    public readonly style = { minHeight: '0px' }
-
-    public readonly children: VirtualDOM
-
-    constructor(assets$: Observable<Asset[]>, state: AppState) {
-        let elementInDoc$ = new ReplaySubject(1)
-        this.children = [
-            {
-                class: "w-100 d-flex flex-wrap justify-content-around ",
-                children: childrenAppendOnly$(
-                    assets$,
-                    (asset: Asset) => new AssetView(asset, state, actionViewFactory(asset.kind)),
-                    { sideEffects: () => elementInDoc$.next(true) }
-                )
-            },
-            child$(
-                elementInDoc$,
-                () => ({}),
-                {
-                    untilFirst: {
-                        class: 'd-flex flex-column justify-content-center h-100',
-                        children: [
-                            ywSpinnerView({ classes: 'mx-auto', size: '50px', duration: 1.5 })
-                        ]
-                    }
-                }
-            )
-        ]
-    }
-}
 
 export class AssetsView {
 
@@ -106,7 +72,7 @@ export class AssetsView {
                 class: "position-absolute h-100 w-100",
                 children: [
                     headerView ? headerView : {},
-                    new AssetsListView(assets$.pipe(map(asset => [asset])), state)
+                    new AssetsListView({ assets$: assets$.pipe(map(asset => [asset])), state })
                 ]
             }
         ]

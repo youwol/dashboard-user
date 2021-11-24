@@ -1,9 +1,12 @@
 import { VirtualDOM } from "@youwol/flux-view";
-import { defaultUserMenu, defaultYouWolMenu, YouwolBannerView } from "@youwol/flux-youwol-essentials";
+import {
+    popupAssetModalView, AssetsGatewayClient, defaultUserMenu, defaultYouWolMenu, YouwolBannerView,
+    Asset, AssetActionsView
+} from "@youwol/flux-youwol-essentials";
 import { BehaviorSubject, from, Subject } from "rxjs";
 import { filter, map } from "rxjs/operators";
 import { AppState } from "../app.state";
-import { modalView } from "./modal.view";
+
 import { SideBarView } from "./sidebar.view";
 import { ContentView } from "./main-content.view";
 
@@ -35,6 +38,7 @@ class SearchView implements VirtualDOM {
         ]
     }
 }
+
 /**
  * Top banner of the application
  */
@@ -74,10 +78,14 @@ export class AppView implements VirtualDOM {
     constructor() {
 
         this.state = new AppState()
-
+        let client = new AssetsGatewayClient()
         this.state.selectedAsset$.pipe(
             filter(asset => asset != undefined)
-        ).subscribe(() => modalView(this.state))
+        ).subscribe((assetId: string) => popupAssetModalView({
+            asset$: client.getAsset$(assetId),
+            actionsFactory: (asset: Asset) => new AssetActionsView({ asset }),
+            forceReadonly: true
+        }))
 
         let sideBarView = new SideBarView(this.state, this.extended$)
 
