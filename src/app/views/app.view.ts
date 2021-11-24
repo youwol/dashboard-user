@@ -69,7 +69,7 @@ export class AppView implements VirtualDOM {
 
     public readonly children: Array<VirtualDOM>
 
-    extended$ = new BehaviorSubject(true)
+    extended$ = new BehaviorSubject(false)
 
     constructor() {
 
