@@ -1,5 +1,5 @@
 import { attr$, VirtualDOM } from "@youwol/flux-view"
-import { BehaviorSubject, combineLatest } from "rxjs"
+import { BehaviorSubject } from "rxjs"
 import { AppState } from "../app.state"
 import { faClasses, PageType } from "../utils.view"
 
