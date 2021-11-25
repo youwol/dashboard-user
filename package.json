@@ -1,6 +1,6 @@
 {
     "name": "@youwol/exhibition-halls",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "description": "YouWol's exhibition's halls front-end application",
     "author": "greinisch@youwol.com",
     "main":"dist/index.html",
