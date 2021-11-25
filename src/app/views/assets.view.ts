@@ -1,5 +1,5 @@
 import { VirtualDOM } from "@youwol/flux-view"
-import { AssetsListView } from "@youwol/flux-youwol-essentials"
+import { AssetsListView } from "@youwol/platform-essentials"
 import { merge } from "rxjs"
 import { map } from "rxjs/operators"
 import { AppState } from "../app.state"

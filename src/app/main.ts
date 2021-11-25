@@ -40,7 +40,7 @@ let bundlesFutures = cdn.fetchBundles(
         "@youwol/fv-tabs": "latest",
         "@youwol/fv-input": "latest",
         "@youwol/fv-context-menu": "latest",
-        "@youwol/flux-youwol-essentials": "latest"
+        "@youwol/platform-essentials": "latest"
     },
     window,
     (event) => {

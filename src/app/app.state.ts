@@ -1,5 +1,5 @@
 import { install } from "@youwol/cdn-client"
-import { YouwolBannerState } from "@youwol/flux-youwol-essentials"
+import { YouwolBannerState } from "@youwol/platform-essentials"
 import { BehaviorSubject, from, Observable, ReplaySubject } from "rxjs"
 import { map } from "rxjs/operators"
 import { assetsByPage } from "./data"

@@ -2,7 +2,7 @@ import { VirtualDOM } from "@youwol/flux-view";
 import {
     popupAssetModalView, AssetsGatewayClient, defaultUserMenu, defaultYouWolMenu, YouwolBannerView,
     Asset, AssetActionsView
-} from "@youwol/flux-youwol-essentials";
+} from "@youwol/platform-essentials";
 import { BehaviorSubject, from, Subject } from "rxjs";
 import { filter, map } from "rxjs/operators";
 import { AppState } from "../app.state";
@@ -82,7 +82,7 @@ export class AppView implements VirtualDOM {
         this.state.selectedAsset$.pipe(
             filter(asset => asset != undefined)
         ).subscribe((assetId: string) => popupAssetModalView({
-            asset$: client.getAsset$(assetId),
+            asset$: client.getAsset(assetId),
             actionsFactory: (asset: Asset) => new AssetActionsView({ asset }),
             forceReadonly: true
         }))
